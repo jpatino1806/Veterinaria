@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed} from 'vue'
+import { reactive } from 'vue'
 import Alerta from './Alerta.vue'
 
 
@@ -8,31 +8,10 @@ const alerta = reactive({
     mensaje: ''
 });
 
-const emit = defineEmits(['update:nombre', 'update:propietario', 'update:email', 
-'update:alta', 'update:sintomas', 'guardar-paciente'])
+defineEmits(['update:nombre', 'update:propietario', 'update:email', 'update:alta', 'update:sintomas'])
 
 const props = defineProps({
-    id:{
-        type: [String, null],
-        required: true
-    },
     nombre:{
-        type: String,
-        required: true
-    },
-    propietario:{
-        type: String,
-        required: true
-    },
-    email:{
-        type: String,
-        required: true
-    },
-    alta:{
-        type: String,
-        required: true
-    },
-    sintomas:{
         type: String,
         required: true
     }
@@ -41,28 +20,15 @@ const props = defineProps({
 
 
 const validar = () => {
-    if(Object.values(props).includes(''))
+    if(Object.values(paciente).includes(''))
     {
         alerta.mensaje = ('Todos los campos son obligatorios');
         alerta.tipo = 'error'
         return
     }
-        emit('guardar-paciente')
-        alerta.mensaje = "Paciente agregado correctamente"
-        alerta.tipo = "exito"
-
-        setTimeout( () => {
-            Object.assign(alerta,{
-                tipo: '',
-                mensaje: ''
-            })
-        }, 3000)
+        console.log('Agregando...')
     
 }
-
-const editando = computed( () => {
-    return props.id
-})
 
 </script>
 
@@ -88,7 +54,6 @@ const editando = computed( () => {
                 </label>
                 <input id="mascota" type="text" placeholder="Nombre de la mascota"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                    :value="nombre"
                     @input="$emit('update:nombre', $event.target.value)"
                     >
 
@@ -99,7 +64,6 @@ const editando = computed( () => {
                 </label>
                 <input id="propietario" type="text" placeholder="Nombre del propietario"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md" 
-                    :value="propietario"
                     @input="$emit('update:propietario', $event.target.value)"
                     >
             </div>
@@ -109,7 +73,6 @@ const editando = computed( () => {
                 </label>
                 <input id="email" type="email" placeholder="Email del propietario"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                    :value="email"
                     @input="$emit('update:email', $event.target.value)"
                     >
             </div>
@@ -118,8 +81,7 @@ const editando = computed( () => {
                     Alta
                 </label>
                 <input id="alta" type="date" class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                :value="alta" 
-                @input="$emit('update:alta', $event.target.value)"
+                 @input="$emit('update:alta', $event.target.value)"
                 >
             </div>
             <div class="mb-5">
@@ -128,14 +90,12 @@ const editando = computed( () => {
                 </label>
                 <textarea id="sintomas" placeholder="Describe los síntomas"
                     class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md h-40" 
-                    :value="sintomas"
                     @input="$emit('update:sintomas', $event.target.value)"
                     />
             </div>
 
             <input type="submit" class="bg-indigo-600 w-full p-3 text-white uppercase font-bold
-                hover:bg-indigo-800 cursor-pointer transition-colors" 
-                :value="[editando ? 'Guardar   cambios' : 'registrar   paciente']" />
+                hover:bg-indigo-800 cursor-pointer transition-colors" value="registrar paciente" />
         </form>
     </div>
 </template>

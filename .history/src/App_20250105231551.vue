@@ -1,5 +1,5 @@
 <script setup>
-import {ref, reactive, watch, onMounted} from 'vue'
+import {ref, reactive} from 'vue'
 import {uid} from 'uid'
 import Header from './components/Header.vue'
 import Formulario from './components/Formulario.vue'
@@ -16,38 +16,12 @@ const paciente = reactive({
   sintomas: ''
 })
 
-watch(pacientes, () => {
-  guardarLocalStorage()
-}, {
-  deep: true
-})
-
-const guardarLocalStorage = () => {
-  localStorage.setItem('pacientes', JSON.stringify(pacientes.value))
-}
-
-onMounted( () => {
-  const pacientesStorage = localStorage.getItem('pacientes')
-  if (pacientesStorage){
-    //convertir string en arreglo
-    pacientes.value = JSON.parse(pacientesStorage)
-  }
-})
-
 const guardarPaciente = () => {
 
-  if(paciente.id){
-    const {id} = paciente
-    const i = pacientes.value.findIndex( paciente => paciente.id === id)
-    pacientes.value[i] = {...paciente}
-
-  }else{
-    pacientes.value.push({
-      ...paciente,
-      id: uid()
-    })
-  }
-
+  pacientes.value.push({
+    ...paciente,
+    id: uid()
+  });
 
   //reiniciar objeto
   // paciente.nombre = ''
@@ -62,19 +36,13 @@ const guardarPaciente = () => {
     propietario: '',
     email: '',
     alta: '',
-    sintomas: '',
-    id: null
+    sintomas: ''
   })
 }
 
-const actualizarPaciente = (id) => {
-    const pacienteEditar = pacientes.value.filter(paciente => paciente.id === id)[0]
-    Object.assign(paciente, pacienteEditar)
-}
-
-const eliminarPaciente = (id) => {
-  pacientes.value = pacientes.value.filter(paciente => paciente.id !== id)
-}
+const actualizarPaciente = () => {
+    console.log('actualizando pacientes ...')
+  }
 
 </script>
 
@@ -89,7 +57,6 @@ const eliminarPaciente = (id) => {
       v-model:alta = "paciente.alta"
       v-model:sintomas = "paciente.sintomas"
       @guardar-paciente = "guardarPaciente"
-      :id="paciente.id"
       />
       
       <div class="md:w-1/2 md:h-screen overflow-y-scroll">
@@ -105,8 +72,7 @@ const eliminarPaciente = (id) => {
             <Paciente 
               v-for:="paciente in pacientes"
               :paciente="paciente"
-              @actualizar-paciente = "actualizarPaciente"
-              @eliminar-paciente = "eliminarPaciente"
+              :@actualizar-paciente = "actualizarPaciente"
             />
         
 

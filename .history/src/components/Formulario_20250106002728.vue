@@ -135,7 +135,7 @@ const editando = computed( () => {
 
             <input type="submit" class="bg-indigo-600 w-full p-3 text-white uppercase font-bold
                 hover:bg-indigo-800 cursor-pointer transition-colors" 
-                :value="[editando ? 'Guardar   cambios' : 'registrar   paciente']" />
+                :value="[editando ? 'Guardar cambios' : 'registrar paciente']" />
         </form>
     </div>
 </template>

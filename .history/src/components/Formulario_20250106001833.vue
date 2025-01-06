@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed} from 'vue'
+import { reactive } from 'vue'
 import Alerta from './Alerta.vue'
 
 
@@ -59,10 +59,6 @@ const validar = () => {
         }, 3000)
     
 }
-
-const editando = computed( () => {
-    return props.id
-})
 
 </script>
 
@@ -134,8 +130,7 @@ const editando = computed( () => {
             </div>
 
             <input type="submit" class="bg-indigo-600 w-full p-3 text-white uppercase font-bold
-                hover:bg-indigo-800 cursor-pointer transition-colors" 
-                :value="[editando ? 'Guardar   cambios' : 'registrar   paciente']" />
+                hover:bg-indigo-800 cursor-pointer transition-colors" value="registrar paciente" />
         </form>
     </div>
 </template>
